@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:chatapp/model/check_log_model.dart';
 import 'package:chatapp/model/user_model.dart';
-import 'package:chatapp/view/home.dart';
-import 'package:chatapp/view/login_page.dart';
+import 'package:chatapp/view/pages/home.dart';
+import 'package:chatapp/view/pages/login_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

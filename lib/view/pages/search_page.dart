@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:chatapp/main.dart';
 import 'package:chatapp/model/chatroom_model.dart';
 import 'package:chatapp/model/user_model.dart';
-import 'package:chatapp/view/chatroom.dart';
+import 'package:chatapp/view/pages/chatroom.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

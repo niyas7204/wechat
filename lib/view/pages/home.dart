@@ -3,9 +3,10 @@ import 'dart:developer';
 import 'package:chatapp/components/helpers/firebase_helper.dart';
 import 'package:chatapp/model/chatroom_model.dart';
 import 'package:chatapp/model/user_model.dart';
-import 'package:chatapp/view/chatroom.dart';
-import 'package:chatapp/view/login_page.dart';
-import 'package:chatapp/view/search_page.dart';
+import 'package:chatapp/view/pages/chatroom.dart';
+import 'package:chatapp/view/pages/login_page.dart';
+import 'package:chatapp/view/pages/search_page.dart';
+import 'package:chatapp/view/widgets/alert_diologes/alerts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -24,9 +25,13 @@ class HomeScreem extends StatefulWidget {
 class _HomeScreemState extends State<HomeScreem> {
   @override
   Widget build(BuildContext context) {
-    log('home');
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              return AlertdiologeWidgets.loadingAlert(context);
+            },
+            icon: Icon(Icons.add)),
         actions: [
           GestureDetector(
             onTap: () async {
@@ -97,8 +102,9 @@ class _HomeScreemState extends State<HomeScreem> {
                               title: Text(targetuser.fullname!),
                             );
                           } else {
-                            return const Center(
-                                child: CircularProgressIndicator());
+                            return Center(
+                                child:
+                                    AlertdiologeWidgets.loadingAlert(context));
                           }
                         } else if (snapshot.hasError) {
                           return const Center(
