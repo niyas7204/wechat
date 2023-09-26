@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:chatapp/components/constants/sized.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AlertdiologeWidgets {
-  static loadingAlert(BuildContext context) {
+class AlertdiologeWidgets extends GetxController {
+   loadingAlert(BuildContext context) {
     AlertDialog loadingDiologe = const AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -20,13 +22,10 @@ class AlertdiologeWidgets {
       builder: (context) => loadingDiologe,
     );
   }
- static warnigAlert(String message){
- Get.defaultDialog(middleText: message, actions: [
-        ElevatedButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: const Text('ok'))
-      ]);
+ warnigAlert(String message){
+  log('alll');
+ Get.defaultDialog(middleText: message, actions: [ElevatedButton(onPressed: () {
+   Get.back();
+ }, child:const Text('back'))]);
  }
 }

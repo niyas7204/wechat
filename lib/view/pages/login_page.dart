@@ -4,6 +4,7 @@ import 'package:chatapp/components/constants/sized.dart';
 import 'package:chatapp/components/logo.dart';
 import 'package:chatapp/controllers/login_page_controller.dart';
 import 'package:chatapp/view/pages/signup_page.dart';
+import 'package:chatapp/view/widgets/alert_diologes/alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +14,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LogInPageController controller = Get.put(LogInPageController());
+     final AlertdiologeWidgets alertdcontroller=Get.put(AlertdiologeWidgets());
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     return Scaffold(
@@ -32,6 +34,14 @@ class LoginPage extends StatelessWidget {
                 Sized.height10,
                 TextFieldWidgets.textFieldWithLabel(
                     'Password', passwordController),
+                    Obx(() {
+                      if(Get.find<LogInPageController>().isloading.value){
+return const CircularProgressIndicator();
+                      }
+                      else{
+                        return const SizedBox();
+                      }
+                    }),
                 SizedBox(
                   height: 30,
                   width: 234,
@@ -53,6 +63,7 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                 ),
+                 
                 ElevatedButton(
                     onPressed: () {
                       controller.chekvalues(

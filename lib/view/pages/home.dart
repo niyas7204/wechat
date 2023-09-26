@@ -11,8 +11,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreem extends StatefulWidget {
+
   final Usermodel usermodel;
   final User firebaseuser;
   const HomeScreem(
@@ -25,11 +27,12 @@ class HomeScreem extends StatefulWidget {
 class _HomeScreemState extends State<HomeScreem> {
   @override
   Widget build(BuildContext context) {
+    final AlertdiologeWidgets alertdcontroller=Get.put(AlertdiologeWidgets());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              return AlertdiologeWidgets.loadingAlert(context);
+              return alertdcontroller.loadingAlert(context);
             },
             icon: Icon(Icons.add)),
         actions: [
@@ -104,7 +107,7 @@ class _HomeScreemState extends State<HomeScreem> {
                           } else {
                             return Center(
                                 child:
-                                    AlertdiologeWidgets.loadingAlert(context));
+                                    alertdcontroller.loadingAlert(context));
                           }
                         } else if (snapshot.hasError) {
                           return const Center(

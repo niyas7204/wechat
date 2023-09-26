@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:chatapp/model/check_log_model.dart';
 import 'package:chatapp/model/user_model.dart';
@@ -8,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
 var uuid = const Uuid();
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.islogged!) {
-                log('loged');
+               
                 return HomeScreem(
                     usermodel: snapshot.data!.userData!,
                     firebaseuser: snapshot.data!.firebaseuser!);

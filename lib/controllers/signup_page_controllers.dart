@@ -7,18 +7,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class SignUpPageController extends GetxController {
+  RxBool isloading=false.obs;
+  final AlertdiologeWidgets alertdcontroller=Get.put(AlertdiologeWidgets());
   chekvalues(
       {required String email,
       required String username,
       required String password,
       required String confirmpassword}) {
+        Get.find<SignUpPageController>().isloading.value=true;
     if (email.isEmpty ||
         username.isEmpty ||
         password.isEmpty ||
         confirmpassword.isEmpty) {
-      AlertdiologeWidgets.warnigAlert('All fields should be complete.');
+           Get.find<SignUpPageController>().isloading.value=false;
+      alertdcontroller.warnigAlert('All fields should be complete.');
     } else if (password != confirmpassword) {
-      AlertdiologeWidgets.warnigAlert('passwords not match');
+      alertdcontroller.warnigAlert('passwords not match');
     } else {
       signup(email, username, password);
     }
@@ -29,11 +33,7 @@ class SignUpPageController extends GetxController {
     try {
       credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (error) {
-      AlertdiologeWidgets.warnigAlert('${error.message}');
-    }
-
-    if (credential != null) {
+           
       String uid = credential.user!.uid;
       Usermodel userData = Usermodel(
         uid: uid,
@@ -51,6 +51,13 @@ class SignUpPageController extends GetxController {
               HomeScreem(usermodel: userData, firebaseuser: credential!.user!),
         );
       });
+    
+    } on FirebaseAuthException catch (error) {
+      alertdcontroller.warnigAlert('${error.message}');
+    }finally{
+       Get.find<SignUpPageController>().isloading.value=false;
     }
+
+   
   }
 }
