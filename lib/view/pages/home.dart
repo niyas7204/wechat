@@ -30,11 +30,14 @@ class _HomeScreemState extends State<HomeScreem> {
     final AlertdiologeWidgets alertdcontroller=Get.put(AlertdiologeWidgets());
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              return alertdcontroller.loadingAlert(context);
-            },
-            icon: Icon(Icons.add)),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: IconButton(
+              onPressed: () {
+                return alertdcontroller.loadingAlert(context);
+              },
+              icon: Icon(Icons.add)),
+        ),
         actions: [
           GestureDetector(
             onTap: () async {

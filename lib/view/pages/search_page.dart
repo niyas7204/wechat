@@ -60,7 +60,7 @@ class _SearchPageState extends State<SearchPage> {
           child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10),
             child: TextField(
               controller: emailcontroller,
               decoration: InputDecoration(

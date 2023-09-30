@@ -1,15 +1,18 @@
+enum MessageType{text,image}
 class MessageModel {
   String? messageid;
   String? sender;
-  String? text;
+  String? message;
+  MessageType? messageType;
   DateTime? createdOn;
   bool? seen;
   MessageModel(
-      {this.messageid, this.sender, this.text, this.createdOn, this.seen});
+      {this.messageid, this.sender, this.message,this.messageType, this.createdOn, this.seen});
   MessageModel.frommap(Map<String, dynamic> map) {
     messageid = map['messageid'];
     sender = map['sender'];
-    text = map['text'];
+    message = map['text'];
+    messageType=map['messageType'];
     createdOn = map['createdOn'].toDate();
     seen = map['seen'];
   }
@@ -17,7 +20,8 @@ class MessageModel {
     return {
       'messageid': messageid,
       'sender': sender,
-      'text': text,
+      'text': message,
+      'messageType':messageType,
       'createdOn': createdOn,
       'seen': seen
     };

@@ -1,14 +1,14 @@
-import 'dart:developer';
 
-import 'package:chatapp/main.dart';
+import 'package:chatapp/controllers/chatroom_controller.dart';
 import 'package:chatapp/model/chatroom_model.dart';
 import 'package:chatapp/model/message_model.dart';
 import 'package:chatapp/model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class ChatRoomPage extends StatefulWidget {
+class ChatRoomPage extends StatelessWidget {
   final Usermodel targetuser;
   final ChatRoomModel chatroom;
   final Usermodel currentuser;
@@ -20,44 +20,16 @@ class ChatRoomPage extends StatefulWidget {
       required this.currentuser,
       required this.firebaseuser});
 
-  @override
-  State<ChatRoomPage> createState() => _ChatRoomPageState();
-}
+ 
 
-class _ChatRoomPageState extends State<ChatRoomPage> {
-  TextEditingController textmessagecontroller = TextEditingController();
-  void sendmessage() {
-    log('on click');
-    String msg = textmessagecontroller.text.trim();
-    log(msg);
-    textmessagecontroller.clear();
-    if (msg.isNotEmpty) {
-      log('not empty');
-      var newMessage = MessageModel(
-          messageid: uuid.v1(),
-          sender: widget.currentuser.uid,
-          createdOn: DateTime.now(),
-          text: msg,
-          seen: false);
-      FirebaseFirestore.instance
-          .collection('chatroom')
-          .doc(widget.chatroom.chatroomid)
-          .collection('messages')
-          .doc(newMessage.messageid)
-          .set(newMessage.tomap());
-      widget.chatroom.lastmessage = msg;
-      FirebaseFirestore.instance
-          .collection('chatroom')
-          .doc(widget.chatroom.chatroomid)
-          .set(widget.chatroom.tomap());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    ChatroomController controller=Get.put(ChatroomController());
+     TextEditingController textmessagecontroller = TextEditingController();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.currentuser.fullname!),
+        title: Text(currentuser.fullname!),
       ),
       body: SafeArea(
           child: Container(
@@ -68,7 +40,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('chatroom')
-                    .doc(widget.chatroom.chatroomid)
+                    .doc(chatroom.chatroomid)
                     .collection('messages')
                     .snapshots(),
                 builder: (context, snapshot) {
@@ -85,18 +57,18 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                   as Map<String, dynamic>);
                           return Row(
                             mainAxisAlignment:
-                                currentmessage.sender == widget.currentuser.uid
+                                currentmessage.sender == currentuser.uid
                                     ? MainAxisAlignment.end
                                     : MainAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: currentmessage.sender ==
-                                        widget.currentuser.uid
+                                        currentuser.uid
                                     ? const EdgeInsets.only(right: 10, top: 5)
                                     : const EdgeInsets.only(left: 10, top: 5),
                                 child: Column(
                                   crossAxisAlignment: currentmessage.sender ==
-                                          widget.currentuser.uid
+                                          currentuser.uid
                                       ? CrossAxisAlignment.end
                                       : CrossAxisAlignment.start,
                                   children: [
@@ -108,12 +80,12 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           color: currentmessage.sender ==
-                                                  widget.currentuser.uid
+                                                  currentuser.uid
                                               ? Colors.blueGrey.withOpacity(.8)
                                               : Colors.blue,
                                         ),
                                         child: Text(
-                                          currentmessage.text!,
+                                          currentmessage.message!,
                                           style: const TextStyle(
                                               fontSize: 25,
                                               fontWeight: FontWeight.w600,
@@ -162,7 +134,12 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   )),
                   IconButton(
                       onPressed: () {
-                        sendmessage();
+                        
+                      },
+                      icon: const Icon(Icons.send)),
+                  IconButton(
+                      onPressed: () {
+                        controller.sendMessage(textmessagecontroller.text, currentuser.uid!, MessageType.text, chatroom.chatroomid!);
                       },
                       icon: const Icon(Icons.send))
                 ],
